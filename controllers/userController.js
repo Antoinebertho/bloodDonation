@@ -49,7 +49,7 @@ const userInfo = async (req, res) => {
 
     res.status(200).json({success: true, data: {name: user.name, email: user.email}})
   } catch ( error ) {
-    res.status(500).json({success: false, error, message: "error getting user info"})
+    res.status(500).json({success: false, message: error.message})
   }
 }
 

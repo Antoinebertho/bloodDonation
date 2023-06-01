@@ -1,19 +1,21 @@
-import './App.css'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
+import "./App.css"
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Login                                   from "./pages/Login.tsx"
+import SignUp                                  from "./pages/SignUp.tsx"
+import ProtectedPage                           from "./components/ProtectedPage.tsx";
+import Home                                    from "./pages/Home.tsx";
 
 
 function App() {
 
   const router = createBrowserRouter([
-    { path: "/", element: <> Home </> }, //TODO: Home
+    { path: "/", element: <ProtectedPage children={ Home }/> },
     { path: "/signup", element: <SignUp/> },
     { path: "/login", element: <Login/> }
   ]);
 
   return (
-    <RouterProvider router={router}/>
+      <RouterProvider router={ router }/>
   )
 }
 
