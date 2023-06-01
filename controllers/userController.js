@@ -25,7 +25,6 @@ const login = async (req, res) => {
     } else if (!(await bcrypt.compare(password, user.password))) {
       return res.status(401).send({ message: "password invalid" });
     }
-    console.log(req.user);
     const token = jwt.sign(
       { user_id: user.id,},
       process.env.ACCESS_TOKEN_SECRET,
@@ -45,7 +44,7 @@ const login = async (req, res) => {
 
 const userInfo = async (req, res) => {
   try {
-    const user = await User.findOne({_id: req.user.id})
+    const user = await User.findOne({_id: req.user.user_id})
     if(!user) return res.status(404).json({success: false, message: "user not found"})
 
     res.status(200).json({success: true, data: {name: user.name, email: user.email}})
