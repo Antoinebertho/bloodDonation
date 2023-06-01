@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "concurrently \"nodemon index.js\" \"cd client && npm run dev\"",
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +16,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "react-router-dom": "^6.11.2"
   }
 }

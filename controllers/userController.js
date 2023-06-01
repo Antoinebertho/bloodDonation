@@ -4,10 +4,11 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    req.body.password = hashPassword
+    const user = await User.create(req.body);
 
     res.status(201).send(user);
   } catch (error) {
@@ -24,9 +25,8 @@ const login = async (req, res) => {
     } else if (!(await bcrypt.compare(password, user.password))) {
       return res.status(401).send({ message: "password invalid" });
     }
-    console.log(req.user);
     const token = jwt.sign(
-      { user_id: req.user.id,},
+      { user_id: user.id,},
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "2h" }
     );
@@ -37,11 +37,24 @@ const login = async (req, res) => {
       token
     });
   } catch (error) {
+    console.log(error)
     res.status(400).send(error);
   }
 };
 
+const userInfo = async (req, res) => {
+  try {
+    const user = await User.findOne({_id: req.user.user_id})
+    if(!user) return res.status(404).json({success: false, message: "user not found"})
+
+    res.status(200).json({success: true, data: {name: user.name, email: user.email}})
+  } catch ( error ) {
+    res.status(500).json({success: false, error, message: "error getting user info"})
+  }
+}
+
 module.exports = {
   register,
   login,
+  userInfo
 };
