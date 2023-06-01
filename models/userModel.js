@@ -8,35 +8,35 @@ const userSchema = new Schema({
       //if admin ou donneur
       name: {
         type: String, required: function(){
-          return (this.userType == "admin" || this.userType == "donneur") ? true : false
+          return (this.userType === "admin" || this.userType === "donneur")
         }
       },
       //if hopital ou organisation
       adresse: {
         type: String, required: function(){
-          return (this.userType == "organisation" || this.userType == "hopital") ? true : false
+          return (this.userType === "organisation" || this.userType === "hopital")
         }
       },
       // if hopital
       hospitalName: {
         type: String, required: function(){
-          return (this.userType == "hopital") ? true : false
+          return (this.userType === "hopital")
         }
       },
       /*responsableBlood: {
         type: String, required: function(){
-          return (this.userType == "hopital") ? true : false
+          return (this.userType === "hopital")
         }
       },*/
       // if organisation
       organisationName: {
         type: String, required: function(){
-          return (this.userType == "organisation") ? true : false
+          return (this.userType === "organisation")
         }
       },
       website         : {
         type: String, required: function(){
-          return (this.userType == "organisation") ? true : false
+          return (this.userType === "organisation")
         }
       }
     }
